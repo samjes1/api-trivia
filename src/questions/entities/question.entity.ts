@@ -1,6 +1,7 @@
 import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm'
 import { Category } from './category.entity';
 import { Answer } from './answer.entity';
+import { Difficulty } from '../interfaces/difficulty.enum';
 
 @Entity()
 export class Question {
@@ -11,8 +12,8 @@ export class Question {
     @Column()
     text: string;
 
-    @Column({default: 'medium'})
-    difficulty: 'easy' | 'medium' | 'hard'
+    @Column({type: 'enum', enum: Difficulty })
+    difficulty: Difficulty
     
     @ManyToOne(() => Category, (category) => category.questions)
     category: Category

@@ -13,5 +13,6 @@ export class Category {
     @OneToMany(() => Question, (question) => question.category)
     questions: Question[];
 
-
+    @Column()
+    createdAt: Date;
 }

@@ -1,13 +1,29 @@
-import { Injectable } from '@nestjs/common';
-import { CreateQuestionDto } from './dto/create-question.dto';
-import { UpdateQuestionDto } from './dto/update-question.dto';
-
+import { Get, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreateQuestionDto } from './dto/questions/create-question.dto';
+import { UpdateQuestionDto } from './dto/questions/update-question.dto';
+import { Repository } from 'typeorm';
+import { Question } from './entities/question.entity';
+import { QuestionResponseDto } from './dto/questions/question-response.dto';
+import { plainToClass } from 'class-transformer';
 @Injectable()
 export class QuestionsService {
-  create(createQuestionDto: CreateQuestionDto) {
-    return 'This action adds a new question';
+  constructor(
+    @InjectRepository(Question)
+    private questionRepository: Repository<Question>,
+  ){}
+  
+  
+  async create(createQuestionDto: CreateQuestionDto): Promise<QuestionResponseDto> {
+    const question = this.questionRepository.create(createQuestionDto);
+    const savedQuestion = await this.questionRepository.save(question);
+    return plainToClass(QuestionResponseDto, savedQuestion, {
+      excludeExtraneousValues: true,
+    });
   }
 
+  @Get('random')
+  
   findAll() {
     return `This action returns all questions`;
   }
