@@ -31,7 +31,7 @@ export class QuestionsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.questionsService.findOne(+id);
+    return this.questionsService.findOne(id);
   }
 
   @Patch(':id')

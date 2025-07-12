@@ -63,8 +63,21 @@ export class QuestionsService {
     return searchQuestionAll;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} question`;
+  async findOne(id: string) {
+    const question = await this.questionRepository.findOne({
+      where: {id},
+    }); 
+    if (!question) throw new NotFoundException(`La pregunta ${id} no fue encontrada`)
+
+      const searchQuestionId = plainToClass(QuestionResponseDto, {
+        ...question, category: question.category.name
+      },{
+        excludeExtraneousValues: true
+      });
+
+
+      return searchQuestionId
+
   }
 
   update(id: number, updateQuestionDto: UpdateQuestionDto) {
