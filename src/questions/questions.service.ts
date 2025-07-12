@@ -44,7 +44,7 @@ export class QuestionsService {
     });
   }
 
-  @Get('random')
+  @Get()
   async findAll() {
     const searchQuestion = await this.questionRepository.find({});
     const searchQuestionAll = searchQuestion.map((question) =>
