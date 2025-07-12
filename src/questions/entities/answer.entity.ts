@@ -8,13 +8,13 @@ export class Answer {
     id: string;
 
     @Column()
-    text: string;
+    answer: string;
 
     @Column({default: false})
     isCorrect: boolean;
 
-    @ManyToOne(() => Question, (question) => question.answers)
-    question: Question
-
-    
+  @ManyToOne(() => Question, (question) => question.answers, {eager: true})
+    question: Question;
+ 
+  
 }

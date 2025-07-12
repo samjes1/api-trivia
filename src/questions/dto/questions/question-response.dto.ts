@@ -1,6 +1,6 @@
 
 import { Expose, Type } from 'class-transformer';
-import { CategoryResponseDto } from '../categories/category-response.dto';
+import { CategoryResponseDto } from '../../../category/dto/category-response.dto';
 import { AnswerResponseDto } from '../answers/answer-response.dto';
 
 
@@ -10,7 +10,7 @@ export class QuestionResponseDto {
   id: string; // UUID
 
   @Expose()
-  text: string;
+  question: string;
 
   @Expose()
   difficulty: string;
