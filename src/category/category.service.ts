@@ -29,8 +29,9 @@ export class CategoryService {
     
   }
 
-  findAll() {
-    return `This action returns all category`;
+  async findAll() {
+    const searchCategory = await this.categoryRepository.find()
+    return searchCategory ;
   }
 
   findOne(id: number) {
