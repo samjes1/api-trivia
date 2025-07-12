@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,9 +17,16 @@ export class CategoryService {
   }
 
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
-    const category = this.categoryRepository.create(createCategoryDto);
-    const savedCategory = await this.categoryRepository.save(category);
-    return savedCategory;
+    try {
+      await this.findByName(createCategoryDto.name)
+      
+      const category = this.categoryRepository.create(createCategoryDto);
+      const savedCategory = await this.categoryRepository.save(category);
+      return savedCategory;
+    } catch (error) {
+      this.HandleErrorExceptions(error, `No se pudo crear la categoría` )
+    }
+    
   }
 
   findAll() {
@@ -38,11 +45,17 @@ export class CategoryService {
     return `This action removes a #${id} category`;
   }
 
+  HandleErrorExceptions(error: Error, context: string): never {
+      //console.error(`[${context}]`, error);
 
-  HandleError(){
-    if (code: 23505) {
-      throw new 
+    if (error instanceof ConflictException) throw error;
+
+    if (error.message.includes('violates unique constraint')) {
+      throw new ConflictException('La categoría es duplicada');
     }
+
+    throw new HttpException('Error interno del servidor', HttpStatus.INTERNAL_SERVER_ERROR);
+
   }
 
 }
