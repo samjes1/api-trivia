@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:14.3
+    container_name: Triviadb
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456789
+      POSTGRES_DB: trivia_db
+    volumes:
+      - trivia_db:/var/lib/postgresql/data
+
+volumes:
+  trivia_db:
+    driver: local
