@@ -15,24 +15,29 @@ export class QuestionsService {
     @InjectRepository(Question)
     private questionRepository: Repository<Question>,
     private categoryService: CategoryService,
-  ){}
-  
-  
-  async create(createQuestionDto: CreateQuestionDto): Promise<QuestionResponseDto> {
-    
-    // Busca la categoría
-    let category = await this.categoryService.findByName(createQuestionDto.category);
-    
-    if (!category) throw new NotFoundException(`La categoría ${category}, no se cuentra agregada o creada`)
+  ) {}
 
-    // crea la pregunta con la relaciones 
-    const question = this.questionRepository.create({...createQuestionDto, category});
-    
-    
+  async create(
+    createQuestionDto: CreateQuestionDto,
+  ): Promise<QuestionResponseDto> {
+    // Busca la categoría
+    let category = await this.categoryService.findByName(
+      createQuestionDto.category,
+    );
+
+    if (!category)
+      throw new NotFoundException(
+        `La categoría ${category}, no se cuentra agregada o creada`,
+      );
+
+    // crea la pregunta con la relaciones
+    const question = this.questionRepository.create({
+      ...createQuestionDto,
+      category,
+    });
+
     //Guardado en base de datos
     const savedQuestion = await this.questionRepository.save(question);
-
-
 
     return plainToClass(QuestionResponseDto, savedQuestion, {
       excludeExtraneousValues: true,
@@ -40,9 +45,22 @@ export class QuestionsService {
   }
 
   @Get('random')
-  
-  findAll() {
-    return `This action returns all questions`;
+  async findAll() {
+    const searchQuestion = await this.questionRepository.find({});
+    const searchQuestionAll = searchQuestion.map((question) =>
+      plainToClass(
+        QuestionResponseDto,
+        {
+          ...question,
+          Category: question.category?.name,
+        },
+        {
+          excludeExtraneousValues: true,
+        },
+      ),
+    );
+
+    return searchQuestionAll;
   }
 
   findOne(id: number) {

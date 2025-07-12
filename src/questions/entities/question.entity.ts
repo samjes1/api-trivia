@@ -16,6 +16,7 @@ export class Question {
     difficulty: Difficulty
    
      @ManyToOne(() => Category, (category) => category.questions, {
+        eager: true,
         onDelete: 'CASCADE',
         nullable: false,
      }) 
