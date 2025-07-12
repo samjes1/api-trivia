@@ -1,7 +1,7 @@
 
 import { Expose, Type } from 'class-transformer';
 import { CategoryResponseDto } from '../../../category/dto/category-response.dto';
-import { AnswerResponseDto } from '../answers/answer-response.dto';
+import { AnswerResponseDto } from '../../../answers/dto/answer-response.dto';
 
 
 

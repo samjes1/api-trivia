@@ -1,5 +1,5 @@
 import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm'
-import { Answer } from './answer.entity';
+import { Answer } from '../../answers/entities/answer.entity';
 import { Difficulty } from '../interfaces/difficulty.enum';
 import { Category } from 'src/category/entities/category.entity';
 

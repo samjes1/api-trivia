@@ -6,7 +6,7 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { CreateAnswerDto } from '../answers/create-answer.dto';
+import { CreateAnswerDto } from '../../../answers/dto/create-answer.dto';
 import { Difficulty } from 'src/questions/interfaces/difficulty.enum';
 
 export class CreateQuestionDto {
